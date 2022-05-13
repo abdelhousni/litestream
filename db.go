@@ -1444,6 +1444,8 @@ func (db *DB) readPositionFile() (Pos, error) {
 		return Pos{}, err
 	}
 
+	println("dbg/posfile", strings.TrimSpace(string(buf)))
+
 	// Treat invalid format as a non-existent file so we return an empty position.
 	pos, _ := ParsePos(strings.TrimSpace(string(buf)))
 	return pos, nil
@@ -1711,6 +1713,8 @@ func (db *DB) stream(ctx context.Context) error {
 	if err != nil {
 		return fmt.Errorf("read position file: %w", err)
 	}
+
+	println("dbg/newstream", pos.String())
 
 	// Continuously stream and apply records from client.
 	sr, err := db.StreamClient.Stream(ctx, pos)
